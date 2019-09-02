@@ -14,7 +14,7 @@ use-after-free. Among other features, SlimGuard uses an efficient fine-grain
 size classes indexing mechanism and implements a novel dynamic canary scheme
 optimized for memory overhead reduction.
 
-![](https://github.com/bcliu430/slimguard_publish/blob/master/doc/overview.png)
+![](https://github.com/ssrg-vt/SlimGuard/blob/master/doc/overview.png)
 
 ### Design Principles
 
