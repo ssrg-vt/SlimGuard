@@ -14,7 +14,7 @@ use-after-free. Among other features, SlimGuard uses an efficient fine-grain
 size classes indexing mechanism and implements a novel dynamic canary scheme
 optimized for memory overhead reduction.
 
-![](https://github.com/ssrg-vt/SlimGuard/blob/master/doc/overview.png)
+![](https://aw.githubusercontent.com/ssrg-vt/SlimGuard/blob/master/doc/overview.png)
 
 ### Design Principles
 
@@ -42,3 +42,7 @@ using delayed randomized memory reuse and optionally destroying data on free.
 SlimGuard is an open-source project of the [Systems Software Research
 Group](https://www.ssrg.ece.vt.edu/) at [Virginia Tech](https://vt.edu/).
 
+SlimGuard is supported in part by ONR under grants N00014-16-1-2104 and
+N00014-18-1-2022. Any opinions, findings, and conclusions or recommendations
+expressed in this site are those of the author(s) and do not necessarily
+reflect the views of ONR.
