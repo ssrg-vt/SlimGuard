@@ -1,8 +1,8 @@
 * * *
 **News**
 
-- Our SlimGuard [paper](https://www.ssrg.ece.vt.edu/papers/vee2019.pdf) has been accepted
-at [MIDDLEWARE 2019]().
+- Our SlimGuard [paper]() has been accepted
+at [Middleware 2019]().
 
 * * *
 
@@ -14,7 +14,7 @@ use-after-free. Among other features, SlimGuard uses an efficient fine-grain
 size classes indexing mechanism and implements a novel dynamic canary scheme
 optimized for memory overhead reduction.
 
-![](https://aw.githubusercontent.com/ssrg-vt/SlimGuard/blob/master/doc/overview.png)
+![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/overview.png)
 
 ### Design Principles
 
