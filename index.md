@@ -19,14 +19,14 @@ optimized for memory overhead reduction.
 ### Design Principles
 
 The security principles implemented within SlimGuard are the following:
-Randomized memory allocations with a signif- icant entropy remove the capacity
+Randomized memory allocations with a significant entropy remove the capacity
 by the attacker to create a deterministic layout of objects on the heap [33].
-Over- provisioning protects in a probabilistic way against buffer overflows.
+Over-provisioning protects in a probabilistic way against buffer overflows.
 Segregating metadata from data allows to pro- tect against metadata
-corruption-based attacks [17] that are straightforward in systems storing
+corruption-based attacks that are straightforward in systems storing
 metadata inline as headers with dynamically allocated objects. These metadata
 include in particular the state of each slot (free or used), checked upon free
-to protect against double-free-based at- tacks. Heap over- and under-flows are
+to protect against double-free-based attacks. Heap over- and under-flows are
 protected against with the use of heap canaries. Unmapped guard pages prevent
 heap buffer overflows and over-reads. Use-after-free attacks are made harder by
 using delayed randomized memory reuse and optionally destroying data on free.
