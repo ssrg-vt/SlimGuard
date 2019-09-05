@@ -20,7 +20,7 @@ optimized for memory overhead reduction.
 
 The security principles implemented within SlimGuard are the following:
 Randomized memory allocations with a significant entropy remove the capacity
-by the attacker to create a deterministic layout of objects on the heap [33].
+by the attacker to create a deterministic layout of objects on the heap.
 Over-provisioning protects in a probabilistic way against buffer overflows.
 Segregating metadata from data allows to pro- tect against metadata
 corruption-based attacks that are straightforward in systems storing
