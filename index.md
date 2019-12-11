@@ -8,7 +8,7 @@ at [Middleware 2019](http://2019.middleware-conference.org/).
 
 **Awards**
 
-SlimGuard is artifact available and evaulted.
+SlimGuard is awarded to artifacts available and artifacts evaulted functional badges.
  
 ![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/artifacts_available.jpg)
 ![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/artifacts_evaluated_functional.jpg)
