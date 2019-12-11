@@ -1,11 +1,18 @@
 * * *
 **News**
 
-- Our SlimGuard [paper]() has been accepted
-at [Middleware 2019]().
+- Our SlimGuard [paper](https://dl.acm.org/citation.cfm?id=3361532) has been accepted
+at [Middleware 2019](http://2019.middleware-conference.org/).
 
 * * *
 
+**Awards**
+
+SlimGuard is artifact available and evaulted.
+ 
+![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/artifact_available.png)
+![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/artifact_evaulated_functional.png)
+* * *
 SlimGuard is a secure dynamic memory allocator whose design is driven by memory
 efficiency. We redesign the security features of state-of-the-art allocators
 with memory efficiency in mind. SlimGuard protects against widespread
