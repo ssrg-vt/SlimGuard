@@ -10,8 +10,9 @@ at [Middleware 2019](http://2019.middleware-conference.org/).
 
 SlimGuard is awarded to artifacts available and artifacts evaulted functional badges.
  
-![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/artifacts_available.jpg)
-![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/artifacts_evaluated_functional.jpg)
+<img src="https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/artifacts_available.jpg" width="100">
+<img src="https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/artifacts_evaluated_functional.jpg" width="100">
+
 
 * * *
 SlimGuard is a secure dynamic memory allocator whose design is driven by memory
