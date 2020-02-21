@@ -44,7 +44,7 @@ using delayed randomized memory reuse and optionally destroying data on free.
 
 [Beichen Liu](), Virginia Tech: beichen.liu *at* vt *dot* edu
 
-[Pierre Olivier](https://sites.google.com/view/pierreolivier), Virginia Tech: polivier *at* vt *dot* edu
+[Pierre Olivier](https://sites.google.com/view/pierreolivier), The University of Manchester: pierre.olivier *at* manchester.ac.uk
 
 * * *
 
