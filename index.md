@@ -15,14 +15,17 @@ SlimGuard is awarded the _artifacts available_ and _artifacts evaluated_ functio
 
 
 * * *
+
+You can download SlimGuard on
+[Github](https://github.com/ssrg-vt/SlimGuard/).
+
 SlimGuard is a secure dynamic memory allocator whose design is driven by memory
 efficiency. We redesign the security features of state-of-the-art allocators
 with memory efficiency in mind. SlimGuard protects against widespread
 heap-related attacks such as overflows, over-reads, double/invalid free, and
 use-after-free. Among other features, SlimGuard uses an efficient fine-grain
 size classes indexing mechanism and implements a novel dynamic canary scheme
-optimized for memory overhead reduction. You can download SlimGuard on
-[Github](https://github.com/ssrg-vt/SlimGuard/).
+optimized for memory overhead reduction.
 
 ![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/overview.png)
 
