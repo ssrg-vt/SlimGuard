@@ -21,7 +21,8 @@ with memory efficiency in mind. SlimGuard protects against widespread
 heap-related attacks such as overflows, over-reads, double/invalid free, and
 use-after-free. Among other features, SlimGuard uses an efficient fine-grain
 size classes indexing mechanism and implements a novel dynamic canary scheme
-optimized for memory overhead reduction.
+optimized for memory overhead reduction. You can download SlimGuard on
+[Github](https://github.com/ssrg-vt/SlimGuard/).
 
 ![](https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/overview.png)
 
