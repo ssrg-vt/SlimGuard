@@ -1,4 +1,9 @@
 * * *
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ssrg-vt/SlimGuard/master/doc/logo.png">
+</p>
+
 **News**
 
 - Our SlimGuard [paper](https://dl.acm.org/citation.cfm?id=3361532) has been accepted
