@@ -35,6 +35,7 @@ set(SlimGuard-src
     ../include/debug.h
     ../include/slimguard.h slimguard.c
     ../include/slimguard-large.h slimguard-large.c
+    ../include/slimguard-mmap.h slimguard-mmap.c
     ../include/sll.h sll.c
     gnuwrapper.cpp)
 

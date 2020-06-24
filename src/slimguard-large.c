@@ -6,6 +6,7 @@
 
 #include "debug.h"
 #include "slimguard-large.h"
+#include "slimguard-mmap.h"
 
 #define N (1<<10) // number of large object
 
@@ -18,12 +19,9 @@ large_obj_t* next_obj(large_obj_t *node) {
 
 void add_large(void *addr, uint32_t align_sz) {
     if (large_list == NULL) {
-        large_list = (large_obj_t *)mmap(NULL,
-                                         sizeof(struct large_obj_t *),
-                                         PROT_READ|PROT_WRITE,
-                                         MAP_PRIVATE|MAP_ANON,
-                                         -1,
-                                         0);
+        large_list =
+            (large_obj_t *)slimguard_mmap(sizeof(struct large_obj_t *));
+
         if (large_list == NULL) {
             Error("fails to mmap for size %lu\n", sizeof(struct large_list *));
             exit(-1);
@@ -36,12 +34,8 @@ void add_large(void *addr, uint32_t align_sz) {
         return;
     }
 
-    large_obj_t *node = (large_obj_t *)mmap(NULL,
-                                            sizeof(struct large_obj_t *),
-                                            PROT_READ|PROT_WRITE,
-                                            MAP_PRIVATE|MAP_ANON,
-                                            -1,
-                                            0);
+    large_obj_t *node =
+        (large_obj_t *)slimguard_mmap(sizeof(struct large_obj_t *));
 
     if (node == NULL) {
         Error("fails to mmap for size %lu\n", sizeof(struct large_obj_t *));
@@ -110,13 +104,7 @@ void* xxmalloc_large(size_t sz) {
     else
         need = sz;
 
-    void *ret = mmap(NULL,
-                     need,
-                     PROT_READ|PROT_WRITE,
-                     MAP_PRIVATE|MAP_ANON,
-                     -1,
-                     0);
-
+    void *ret = slimguard_mmap(need);
     if (ret == NULL) {
         Error("fails to mmap for size %lu\n", sz);
         exit(-1);

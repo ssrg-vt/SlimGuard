@@ -10,6 +10,7 @@ TEST_CASE("test large-obj allocation API", "[slimguard large obj]")
     for (uint32_t i = 0; i < iter; i++) {
         p[i] = xxmalloc_large(1<<20);
         REQUIRE(p[i]);
+        memset(p[i], 0x0, 1<<20);
     }
 
 

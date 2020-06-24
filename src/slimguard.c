@@ -8,6 +8,7 @@
 #include "slimguard-large.h"
 #include "sll.h"
 #include "debug.h"
+#include "slimguard-mmap.h"
 
 #include <assert.h>
 #include <pthread.h>
@@ -74,10 +75,8 @@ uint32_t round_sz(uint32_t sz) {
 /* get size byte of virtual memory */
 void* get_mem(uint64_t size) {
     void* ret = NULL;
-    int prot = PROT_READ | PROT_WRITE;
-    int map = MAP_PRIVATE | MAP_ANON;
 
-    ret = mmap(NULL, size, prot, map, -1, 0);
+    ret = slimguard_mmap(size);
     Debug("ret %p %lu\n", ret, size);
 
     if (ret == NULL) {
