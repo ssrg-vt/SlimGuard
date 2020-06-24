@@ -9,7 +9,7 @@ void * slimguard_mmap(uint64_t size) {
 
    if(r == MAP_FAILED) {
        r = NULL;
-       errx(-1, "!mmap(%llu)", size);
+       errx(-1, "!mmap(%lu)", size);
    }
 
    return r;
