@@ -42,17 +42,24 @@ set(catch catch.hpp)
 set(sll ${debug} ../include/sll.h ../src/sll.c ../test/sll-test.c)
 set(slimguard-large ${debug} ../include/slimguard-large.h ../src/slimguard-large.c ../test/slimguard-large-test.c)
 set(memalign ${debug} ../test/memalign.c)
+set(memalign-free ${debug} ../test/memalign-free.c)
 set(slimguard ${debug} ../include/slimguard.h
                        ../src/slimguard.c
                        ../src/slimguard-large.c
                        ../src/sll.c
                        ../test/slimguard-test.c)
+set(slimguard-base ${debug} ../include/slimguard.h
+                            ../src/slimguard.c
+                            ../src/slimguard-large.c
+                            ../src/sll.c)
+
 enable_testing()
 
 add_executable(sll-test ${sll} ${catch})
 add_executable(slimguard-large-test ${slimguard-large} ${catch})
 add_executable(slimguard-test ${slimguard} ${catch})
-add_executable(memalign ${slimguard} ${catch})
+add_executable(memalign ${memalign} ${slimguard-base} ${catch})
+add_executable(memalign-free ${memalign-free} ${slimguard-base} ${catch})
 
 add_test(sll-test sll-test)
 add_test(slimguard-large-test slimguard-large-test)
