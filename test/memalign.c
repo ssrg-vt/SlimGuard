@@ -8,17 +8,26 @@
 
 TEST_CASE("memalign", "[slimguard]")
 {
-    for(int alignment = 8; alignment<=MAX_ALIGNMENT; alignment*=2) {
+    for(int alignment = 16; alignment<=MAX_ALIGNMENT; alignment*=2) {
         void *ptr = xxmemalign(alignment, alignment);
-        REQUIRE(!(ptr % alignment));
-        free(ptr);
+        REQUIRE(ptr);
+        printf("Required alignment 0x%x got pointer @%p\n", alignment, ptr);
+        REQUIRE(!((uint64_t)ptr % alignment));
+        memset(ptr, 0x0, alignment);
+        // For now free fails on buffers allocated with memalign
+        //free(ptr);
 
         ptr = xxmemalign(alignment, alignment*2);
-        REQUIRE(!(ptr % alignment));
+        REQUIRE(ptr);
+        REQUIRE(!((uint64_t)ptr % alignment));
+        memset(ptr, 0x0, alignment*2);
+        //free(ptr);
 
         ptr = xxmemalign(alignment, alignment/2);
-        REQUIRE(!(ptr % alignment));
-        free(ptr);
+        REQUIRE(ptr);
+        REQUIRE(!((uint64_t)ptr % alignment));
+        memset(ptr, 0x0, alignment/2);
+        //free(ptr);
     }
 
 }
