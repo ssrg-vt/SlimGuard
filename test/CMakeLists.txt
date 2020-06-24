@@ -43,6 +43,8 @@ set(sll ${debug} ../include/sll.h ../src/sll.c ../test/sll-test.c)
 set(slimguard-large ${debug} ../test/slimguard-large-test.c)
 set(memalign ${debug} ../test/memalign.c)
 set(memalign-free ${debug} ../test/memalign-free.c)
+set(large-alloc ${debug} ../test/large-alloc.c)
+set(calloc ${debug} ../test/calloc.c)
 set(slimguard-test ${debug} ../test/slimguard-test.c)
 set(slimguard-base ${debug} ../include/slimguard.h
                             ../src/slimguard.c
@@ -60,9 +62,13 @@ add_executable(slimguard-large-test ${slimguard-large} ${slimguard-base} ${catch
 add_executable(slimguard-test ${slimguard-test} ${slimguard-base} ${catch})
 add_executable(memalign ${memalign} ${slimguard-base} ${catch})
 add_executable(memalign-free ${memalign-free} ${slimguard-base} ${catch})
+add_executable(large-alloc ${large-alloc} ${slimguard-base} ${catch})
+add_executable(calloc ${calloc} ${slimguard-base} ${catch})
 
 add_test(sll-test sll-test)
 add_test(slimguard-large-test slimguard-large-test)
 add_test(slimguard-test slimguard-test)
 add_test(memalign memalign)
 add_test(memalign-free memalign-free)
+add_test(large-alloc large-alloc)
+add_test(calloc calloc)
