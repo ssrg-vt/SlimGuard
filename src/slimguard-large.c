@@ -97,7 +97,7 @@ void print_large() {
 }
 
 void* xxmalloc_large(size_t sz) {
-    uint32_t need;
+    size_t need;
 
     if (sz & 0xff)
         need = ((sz >> 8)+1) << 8;
