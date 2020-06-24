@@ -1,1 +1,3 @@
 libSlimGuard.so
+build
+test/mimalloc/test-stress
