@@ -30,7 +30,7 @@ TEST_CASE("bitmap", "[slimguard]")
         ptr[i] = xxmalloc(128);
     }
 
-    for (int i = num; i > 0; i--) {
+    for (int i = (num-1); i >= 0; i--) {
         xxfree(ptr[i]);
     }
 }
