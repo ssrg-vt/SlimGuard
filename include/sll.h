@@ -1,5 +1,4 @@
-/*
- *  sll.h
+/*  sll.h
  *  SlimGuard
  *  Copyright (c) 2019, Beichen Liu, Virginia Tech
  *  All rights reserved
@@ -22,4 +21,4 @@ sll_t* add_head(sll_t* node, sll_t* slist);
 sll_t* remove_head(sll_t* slist);
 void   print_list(sll_t *slist);
 
-#endif
+#endif /* SLL_H */

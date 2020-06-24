@@ -1,3 +1,9 @@
+/*  gnuwrapper.cpp
+ *  SlimGuard
+ *  Copyright (c) 2019, Beichen Liu, Virginia Tech
+ *  All rights reserved
+ */
+
 #ifndef __GNUC__
 #error "This file requires the GNU compiler."
 #endif
@@ -37,7 +43,8 @@ extern "C" {
   static void * (*old_malloc_hook) (size_t, const void *);
   static void (*old_free_hook) (void *, const void *);
   static void *(*old_realloc_hook)(void *ptr, size_t size, const void *caller);
-  static void *(*old_memalign_hook)(size_t alignment, size_t size, const void *caller);
+  static void *(*old_memalign_hook)(size_t alignment, size_t size,
+          const void *caller);
 
   void (*__MALLOC_HOOK_VOLATILE __malloc_initialize_hook) (void) = my_init_hook;
 

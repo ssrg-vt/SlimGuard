@@ -1,5 +1,4 @@
-/*
- *  slimguard-large.h
+/*  slimguard-large.h
  *  SlimGuard
  *  Copyright (c) 2019, Beichen Liu, Virginia Tech
  *  All rights reserved
@@ -17,7 +16,6 @@
 #include <sys/mman.h>
 #include "debug.h"
 
-
 typedef struct large_obj_t {
   void* start_addr;
   uint32_t align_size;
@@ -34,4 +32,4 @@ void print_large();
 void *xxmalloc_large(size_t sz);
 int xxfree_large(void *ptr);
 
-#endif /* SG_LARGE_H */ 
+#endif /* SG_LARGE_H */

@@ -1,5 +1,4 @@
-/*
- *  debug.h
+/*  debug.h
  *  SlimGuard
  *  Copyright (c) 2019, Beichen Liu, Virginia Tech
  *  All rights reserved

@@ -1,5 +1,4 @@
-/*
- *  slimguard-large.c
+/*  slimguard-large.c
  *  SlimGuard
  *  Copyright (c) 2019, Beichen Liu, Virginia Tech
  *  All rights reserved
@@ -13,22 +12,17 @@
 pthread_mutex_t lock;
 large_obj_t* large_list = NULL;
 
-large_obj_t*
-next_obj(large_obj_t *node) 
-{
+large_obj_t* next_obj(large_obj_t *node) {
     return node->next;
-};
+}
 
-void 
-add_large(void *addr, 
-          uint32_t align_sz)
-{
+void add_large(void *addr, uint32_t align_sz) {
     if (large_list == NULL) {
-        large_list = (large_obj_t *)mmap(NULL, 
-                                         sizeof(struct large_obj_t *), 
-                                         PROT_READ|PROT_WRITE, 
-                                         MAP_PRIVATE|MAP_ANON, 
-                                         -1, 
+        large_list = (large_obj_t *)mmap(NULL,
+                                         sizeof(struct large_obj_t *),
+                                         PROT_READ|PROT_WRITE,
+                                         MAP_PRIVATE|MAP_ANON,
+                                         -1,
                                          0);
         if (large_list == NULL) {
             Error("fails to mmap for size %lu\n", sizeof(struct large_list *));
@@ -42,11 +36,11 @@ add_large(void *addr,
         return;
     }
 
-    large_obj_t *node = (large_obj_t *)mmap(NULL, 
-                                            sizeof(struct large_obj_t *), 
-                                            PROT_READ|PROT_WRITE, 
-                                            MAP_PRIVATE|MAP_ANON, 
-                                            -1, 
+    large_obj_t *node = (large_obj_t *)mmap(NULL,
+                                            sizeof(struct large_obj_t *),
+                                            PROT_READ|PROT_WRITE,
+                                            MAP_PRIVATE|MAP_ANON,
+                                            -1,
                                             0);
 
     if (node == NULL) {
@@ -61,45 +55,37 @@ add_large(void *addr,
     large_list = node;
 }
 
-void 
-remove_large(void *target)
-{
+void remove_large(void *target) {
     large_obj_t *tmp = large_list, *pre;
 
-    if ((tmp->next == NULL) | (tmp == NULL)) {
+    if ((tmp->next == NULL) | (tmp == NULL))
         large_list = NULL;
-    }
 
     if ((tmp != NULL) && (tmp->start_addr == target)) {
         large_list = tmp->next;
         return;
     }
-  
-    while ((tmp != NULL) && (tmp->start_addr !=target)) { 
-        pre = tmp; 
-        tmp = tmp->next; 
-    } 
 
-    if (tmp == NULL) { 
-        return; 
-    }  
+    while ((tmp != NULL) && (tmp->start_addr !=target)) {
+        pre = tmp;
+        tmp = tmp->next;
+    }
 
-    pre->next = tmp->next; 
+    if (tmp == NULL)
+        return;
+
+    pre->next = tmp->next;
 }
 
-large_obj_t* 
-in_list(void *target)
-{
-    if (large_list == NULL) {
+large_obj_t* in_list(void *target) {
+    if (large_list == NULL)
         return NULL;
-    }
 
     large_obj_t *curr = large_list;
 
     while (curr != NULL) {
-        if (curr->start_addr == target) {
+        if (curr->start_addr == target)
             return curr;
-        }
 
         curr = next_obj(curr);
     }
@@ -107,9 +93,7 @@ in_list(void *target)
     return NULL;
 }
 
-void 
-print_large()
-{
+void print_large() {
     large_obj_t *tmp = large_list;
 
     while (tmp) {
@@ -118,24 +102,21 @@ print_large()
     }
 }
 
-void*
-xxmalloc_large(size_t sz)
-{
+void* xxmalloc_large(size_t sz) {
     uint32_t need;
-    if (sz & 0xff) {
-        need = ((sz >> 8)+1) << 8;
-    }
-    else {
-        need = sz;
-    }
 
-    void *ret = mmap(NULL, 
-                     need, 
-                     PROT_READ|PROT_WRITE, 
-                     MAP_PRIVATE|MAP_ANON, 
-                     -1, 
+    if (sz & 0xff)
+        need = ((sz >> 8)+1) << 8;
+    else
+        need = sz;
+
+    void *ret = mmap(NULL,
+                     need,
+                     PROT_READ|PROT_WRITE,
+                     MAP_PRIVATE|MAP_ANON,
+                     -1,
                      0);
-    
+
     if (ret == NULL) {
         Error("fails to mmap for size %lu\n", sz);
         exit(-1);
@@ -150,9 +131,7 @@ xxmalloc_large(size_t sz)
     return ret;
 }
 
-int 
-xxfree_large(void *ptr)
-{
+int xxfree_large(void *ptr) {
     large_obj_t *ret;
     ret = in_list(ptr);
 
@@ -166,10 +145,9 @@ xxfree_large(void *ptr)
         /* Lock end */
 
         return 1;
-    }
-    else {
-        Error("Invalid address: %p\n", ptr);
 
+    } else {
+        Error("Invalid address: %p\n", ptr);
         return -1;
     }
 
