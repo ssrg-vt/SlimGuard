@@ -28,6 +28,8 @@ TEST_CASE("bitmap", "[slimguard]")
 
     for (int i = 0; i < num; i++) {
         ptr[i] = xxmalloc(128);
+        REQUIRE(ptr[i]);
+        memset(ptr[i], 0x0, 128);
     }
 
     for (int i = (num-1); i >= 0; i--) {
