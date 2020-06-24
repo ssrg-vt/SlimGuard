@@ -311,7 +311,7 @@ void decrement_pc(void *ptr, uint8_t index) {
 
 /* given a pointer find the corresponding size class */
 uint16_t find_sz_cls(void *ptr) {
-    static int last_index = 0;
+    static __thread int last_index = 0;
 
     for(int i=last_index; i<INDEX; ++i) {
         if(((uint64_t)Class[i].start <= (uint64_t)ptr) &
