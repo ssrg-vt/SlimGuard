@@ -2,7 +2,7 @@ TARGETS = libSlimGuard.so
 CC = gcc
 CXX = g++
 
-CFLAGS = -Wall -O3 -Wno-deprecated-declarations -I./include
+CFLAGS = -Wall -pedantic -O3 -Wno-deprecated-declarations -I./include
 
 CFLAGS += -DGUARDPAGE
 CFLAGS += -DRLEASE_MEM
