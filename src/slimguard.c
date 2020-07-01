@@ -369,6 +369,8 @@ void* xxmalloc(size_t sz) {
             /* Lock end */
         }
 
+        write(1, "xxmalloc\n", 9);
+
         index = sz2cls(need);
 
         if (index == 255) {
@@ -504,11 +506,6 @@ void* xxmemalign(size_t alignment, size_t size) {
 #endif
         return xxmalloc(need);
     }
-}
-
-// Pierre: TODO
-void *xxcalloc(size_t nmemb, size_t size) {
-    return NULL;
 }
 
 /* high level SlimGuard API that is called by gnuwrapper */
