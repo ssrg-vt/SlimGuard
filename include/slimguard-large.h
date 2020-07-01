@@ -29,7 +29,7 @@ large_obj_t *in_list(void *target);
 
 void print_large();
 
-void *xxmalloc_large(size_t sz);
+void *xxmalloc_large(size_t sz, size_t align);
 int xxfree_large(void *ptr);
 
 #endif /* SG_LARGE_H */

@@ -96,15 +96,20 @@ void print_large() {
     }
 }
 
-void* xxmalloc_large(size_t sz) {
+void* xxmalloc_large(size_t sz, size_t align) {
     size_t need;
+    void *ret;
 
     if (sz & 0xff)
         need = ((sz >> 8)+1) << 8;
     else
         need = sz;
 
-    void *ret = slimguard_mmap(need);
+    if(align)
+        ret = slimguard_aligned_mmap(need, align);
+    else
+        ret = slimguard_mmap(need);
+
     if (ret == NULL) {
         Error("fails to mmap for size %lu\n", sz);
         exit(-1);

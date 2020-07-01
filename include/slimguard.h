@@ -36,7 +36,7 @@ uint8_t  sz2cls(uint32_t sz);
 uint32_t cls2sz(uint16_t cls);
 uint64_t round_size(uint64_t sz);
 
-void* get_mem(uint64_t size);
+void* get_mem(uint64_t size, uint32_t align);
 void  init_bibop();
 void  init_bucket(uint8_t index);
 void* get_next(uint8_t index);

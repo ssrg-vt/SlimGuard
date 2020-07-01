@@ -73,10 +73,14 @@ uint32_t round_sz(uint32_t sz) {
 }
 
 /* get size byte of virtual memory */
-void* get_mem(uint64_t size) {
+void* get_mem(uint64_t size, uint32_t align) {
     void* ret = NULL;
 
-    ret = slimguard_mmap(size);
+    if(align)
+        ret = slimguard_aligned_mmap(align, size);
+    else
+        ret = slimguard_mmap(size);
+
     Debug("ret %p %lu\n", ret, size);
 
     if (ret == NULL) {
@@ -107,7 +111,16 @@ void init_bibop() {
 /* Initialize each size class, fill in per size class data structure */
 void init_bucket(uint8_t index) {
     if (Class[index].start == NULL) {
-        void* addr = get_mem(BUCKET_SIZE); // start address of a bucket
+
+        /* If the size class manage a power of two, make sure that each slot is
+         * aligned to the power of two in question. This is useful to manage
+         * alignment requirements, see comments in xxmemalign */
+        uint32_t align = 0;
+        uint32_t sz = cls2sz(index);
+        if(sz >= 0x1000 && (sz & (sz - 1)) == 0)
+            align = sz;
+
+        void* addr = get_mem(BUCKET_SIZE, align); // start address of a bucket
 
         Class[index].head = NULL; // head of the sll contains free pointers
         Class[index].start = addr; // start address of the current bucket
@@ -126,7 +139,7 @@ void init_bucket(uint8_t index) {
                 Class[index].start);
 
 #ifdef RELEASE_MEM
-        page_counter[index] = get_mem(4<<20);
+        page_counter[index] = get_mem(4<<20, 0);
 #endif
 
         Debug("index: %u size: %u %p %p %p\n", index, Class[index].size,
@@ -359,7 +372,7 @@ void* xxmalloc(size_t sz) {
 
     if (need >= (1 << 17)) {
         Debug("sz %lu\n", need);
-        ret = xxmalloc_large(need);
+        ret = xxmalloc_large(need, 0);
     } else {
         if (STATE == null) {
             /* Lock here */
@@ -478,11 +491,12 @@ void* xxrealloc(void *ptr, size_t size) {
 }
 
 void* xxmemalign(size_t alignment, size_t size) {
-    /* Here we used a small trick, Our power of 2 size classesrealigned,
-     * if alignment is larger than size, we just malloc alignment to give
-     * it an address,
-     * if alignment is smaller than size, we round the size to the next
-     * power of 2.
+    /* Here we use a small trick, for power of 2 sizes, each slot in the data
+     * area is aligned to a multiple of its size so if alignment is larger than
+     * size, we just malloc alignment to give it an address, if alignment is
+     * smaller than size, we round the size to the next power of 2. When the
+     * size needed cannot be managed as a small allocation, we use a large one
+     * with alignment constraint.
      */
 
     if(alignment &(alignment-1)){
@@ -495,13 +509,21 @@ void* xxmemalign(size_t alignment, size_t size) {
 #endif
 
     if(alignment >= size) {
-        return xxmalloc(alignment-1);
+        if (alignment < (1 << 17))
+            return xxmalloc(alignment-1);
+        else
+            return xxmalloc_large(alignment, alignment);
     } else {
 #ifdef USE_CANARY
         uint64_t need = (1 << ((uint8_t)log2_64(size) + 1))-1;
+        int need_large = (need+1) >= (1 << 17);
 #else
         uint64_t need = (1 << ((uint8_t)log2_64(size) + 1));
+        int need_large = (need) >= (1 << 17);
 #endif
+        if(need_large)
+            return xxmalloc_large(alignment, need);
+
         return xxmalloc(need);
     }
 }
