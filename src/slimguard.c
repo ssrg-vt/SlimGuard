@@ -369,8 +369,6 @@ void* xxmalloc(size_t sz) {
             /* Lock end */
         }
 
-        write(1, "xxmalloc\n", 9);
-
         index = sz2cls(need);
 
         if (index == 255) {
