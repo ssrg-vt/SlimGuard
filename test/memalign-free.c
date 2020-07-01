@@ -10,5 +10,5 @@ TEST_CASE("memalign", "[slimguard]")
     REQUIRE(ptr);
     REQUIRE(!((uint64_t)ptr % 128));
     memset(ptr, 0x0, 128);
-    free(ptr);
+    xxfree(ptr);
 }
