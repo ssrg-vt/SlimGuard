@@ -10,5 +10,5 @@ TEST_CASE("large-alloc", "[slimguard]") {
     void *ptr = xxmalloc(ALLOC_SIZE);
     REQUIRE(ptr);
     memset(ptr, 0x0, ALLOC_SIZE);
-    free(ptr);
+    xxfree(ptr);
 }
