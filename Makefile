@@ -5,7 +5,7 @@ CXX = g++
 CFLAGS = -Wall -pedantic -O3 -Wno-deprecated-declarations -I./include
 
 CFLAGS += -DGUARDPAGE
-CFLAGS += -DRLEASE_MEM
+CFLAGS += -DRELEASE_MEM
 # CFLAGS += -DDESTROY_ON_FREE
 CFLAGS += -DUSE_CANARY
 # CFLAGS += -DDEBUG
