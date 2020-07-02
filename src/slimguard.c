@@ -250,7 +250,7 @@ void mark_used(void *ptr, uint8_t index) {
     uint8_t shift = i % (1<<6);
 
     Class[index].bitmap[bitmap_index] |= (1UL << shift);
-    Debug("i: %x bit: %u shift %u bitmap: %x\n", i, bitmap_index, shift,
+    Debug("i: %lx bit: %u shift %u bitmap: %lx\n", i, bitmap_index, shift,
             Class[index].bitmap[bitmap_index]);
 }
 
@@ -266,7 +266,7 @@ void mark_free(void *ptr, uint8_t index) {
     }
 
     Class[index].bitmap[bitmap_index] &= ~(1UL << shift);
-    Debug("i: %x bit: %u shift %u bitmap: %x\n", i, bitmap_index, shift,
+    Debug("i: %lx bit: %u shift %u bitmap: %lx\n", i, bitmap_index, shift,
             Class[index].bitmap[bitmap_index]);
 }
 
