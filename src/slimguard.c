@@ -413,6 +413,11 @@ void* xxmalloc(size_t sz) {
         ret = get_random_obj(index);
     }
 
+#ifdef RELEASE_MEM
+    increment_pc(ret, index);
+#endif
+    mark_used(ret, index);
+
     pthread_mutex_unlock(&(Class[index].lock));
     /* Lock end */
 
@@ -420,15 +425,6 @@ void* xxmalloc(size_t sz) {
     set_canary(ret, index);
 #endif
 
-#ifdef RELEASE_MEM
-    increment_pc(ret, index);
-#endif
-
-    /* Lock Here */
-    pthread_mutex_lock(&(Class[index].lock));
-    mark_used(ret, index);
-    pthread_mutex_unlock(&(Class[index].lock));
-    /* Lock End */
   }
 
   return ret;
@@ -458,16 +454,15 @@ void xxfree(void *ptr) {
     get_canary(ptr, index);
 #endif
 
-#ifdef RELEASE_MEM
-    decrement_pc(ptr, index);
-#endif
-
 #ifdef DESTROY_ON_FREE
     memset(ptr, 0, Class[index].size);
 #endif
 
     /* Lock here */
     pthread_mutex_lock(&(Class[index].lock));
+#ifdef RELEASE_MEM
+    decrement_pc(ptr, index);
+#endif
     Class[index].head = add_head((sll_t *)ptr, Class[index].head);
     mark_free(ptr, index);
     pthread_mutex_unlock(&(Class[index].lock));
