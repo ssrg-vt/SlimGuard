@@ -167,7 +167,7 @@ void *get_next(uint8_t index){
     void* ret = Class[index].current;
 
 #ifdef GUARDPAGE
-    if ((ret >= Class[index].guardpage) |
+    if ((ret >= Class[index].guardpage) ||
         ((uint64_t)ret + cls2sz(index) >= (uint64_t)Class[index].guardpage)){
         ret = (void *)((((uint64_t )Class[index].guardpage >> 12) + 1) << 12);
     }
@@ -181,7 +181,7 @@ void *get_next(uint8_t index){
     }
 
 #ifdef GUARDPAGE
-    if( (ret > Class[index].guardpage) |
+    if( (ret > Class[index].guardpage) ||
         ((uint64_t)ret + Class[index].size >=
          (uint64_t)Class[index].guardpage)) {
         void * next_guard = (void *)((((uint64_t)Class[index].current >> 12) +
