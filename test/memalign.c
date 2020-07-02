@@ -5,31 +5,51 @@
 #include "../include/sll.h"
 
 #define MAX_ALIGNMENT   (1024*1024)
+#define ITERATIONS      500
 
 TEST_CASE("memalign", "[slimguard]")
 {
     for(int alignment = 16; alignment<=MAX_ALIGNMENT; alignment*=2) {
+        void *ptrs[ITERATIONS];
+        void *ptrs2[ITERATIONS];
+        void *ptrs3[ITERATIONS];
 
-        void *ptr = xxmemalign(alignment, alignment);
-        REQUIRE(ptr);
-        printf("Required alignment 0x%x got pointer @%p\n", alignment, ptr);
-        REQUIRE(!((uint64_t)ptr % alignment));
-        memset(ptr, 0x0, alignment);
-        xxfree(ptr);
+        for(int i=0; i<ITERATIONS; i++) {
+            ptrs[i] = xxmemalign(alignment, alignment);
+            REQUIRE(ptrs[i]);
+            printf("Required alignment 0x%x got pointer @%p\n", alignment,
+                    ptrs[i]);
+            REQUIRE(!((uint64_t)ptrs[i] % alignment));
+            memset(ptrs[i], 0x0, alignment);
+        }
 
-        void *ptr2 = xxmemalign(alignment, alignment*2);
-        printf("Required alignment 0x%x got pointer @%p\n", alignment, ptr2);
-        REQUIRE(ptr2);
-        REQUIRE(!((uint64_t)ptr2 % alignment));
-        memset(ptr2, 0x0, alignment*2);
-        xxfree(ptr2);
+        for(int i=0; i<ITERATIONS; i++)
+            xxfree(ptrs[i]);
 
-        void *ptr3 = xxmemalign(alignment, alignment/2);
-        printf("Required alignment 0x%x got pointer @%p\n", alignment, ptr3);
-        REQUIRE(ptr3);
-        REQUIRE(!((uint64_t)ptr3 % alignment));
-        memset(ptr3, 0x0, alignment/2);
-        xxfree(ptr3);
+        for(int i=0; i<ITERATIONS; i++) {
+            ptrs2[i] = xxmemalign(alignment, alignment*2);
+            printf("Required alignment 0x%x got pointer @%p\n", alignment,
+                    ptrs2[i]);
+            REQUIRE(ptrs2[i]);
+            REQUIRE(!((uint64_t)ptrs2[i] % alignment));
+            memset(ptrs2[i], 0x0, alignment*2);
+        }
+
+        for(int i=0; i<ITERATIONS; i++)
+            xxfree(ptrs2[i]);
+
+        for(int i=0; i<ITERATIONS; i++) {
+            ptrs3[i] = xxmemalign(alignment, alignment/2);
+            printf("Required alignment 0x%x got pointer @%p\n", alignment,
+                    ptrs3[i]);
+            REQUIRE(ptrs3[i]);
+            REQUIRE(!((uint64_t)ptrs3[i] % alignment));
+            memset(ptrs3[i], 0x0, alignment/2);
+        }
+
+        for(int i=0; i<ITERATIONS; i++)
+            xxfree(ptrs3[i]);
+
     }
 
 }
