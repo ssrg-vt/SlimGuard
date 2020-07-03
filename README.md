@@ -10,7 +10,8 @@ overhead reduction.
 
 #### Build SlimGuard
 
-SlimGuard relys on gcc (v5.4.0.), it is built and run on Ubuntu 16.04.6 LTS (GNU/Linux 4.4.0-131-generic x86_64)
+SlimGuard can be built on most modern Linux distributions and has been tested on
+Ubuntu 18.04 and Debian 10.
 
 To build SlimGuard, run ```make``` in ```/path/to/libSlimGuard```
 
@@ -27,3 +28,13 @@ export LD_PRELOAD=/path/to/libSlimGuard.so
 LD_PRELOAD=/path/to/libSlimGuard.so /your/app
 ```
 
+#### Tests
+
+For this use cmake:
+```
+mkdir build
+cd build
+cmake ..
+make
+make test
+```

@@ -71,6 +71,16 @@ void remove_large(void *target) {
     pre->next = tmp->next;
 }
 
+size_t get_large_object_size(void *target) {
+    size_t ret = 0;
+    large_obj_t * o = in_list(target);
+
+    if(o)
+        ret = o->align_size;
+
+    return ret;
+}
+
 large_obj_t* in_list(void *target) {
     if (large_list == NULL)
         return NULL;

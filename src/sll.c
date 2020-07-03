@@ -41,7 +41,7 @@ void print_list(sll_t *slist) {
   sll_t * current = slist;
 
   while (current != NULL) {
-    Debug("curr %p\n", current);
+    Debug("curr %p\n", (void *)current);
     current = current->next;
   }
 }
