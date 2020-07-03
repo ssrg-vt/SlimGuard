@@ -48,6 +48,10 @@ enum pool_state{null, init} STATE;
 
 /* convert a size to its corresponding size Class */
 uint8_t sz2cls(uint32_t sz) {
+
+    if (sz >= (1 << 17))
+        return 255;
+
     if (sz < 128) {
         return ((sz>>(SLI_LOG2-1)) + ((sz&0x7) ? 1:0 ));
     } else {
@@ -331,7 +335,7 @@ uint16_t find_sz_cls(void *ptr) {
         }
     }
 
-    return 255; // TODO pierre fix this
+    return 255;
 }
 
 /* a fast way to get the integer part of log2 */
@@ -372,7 +376,7 @@ void* xxmalloc(size_t sz) {
         index = sz2cls(need);
 
         if (index == 255) {
-            perror("sz2cls");  // TODO pierre fix this
+            perror("sz2cls");
             return NULL;
         }
 
@@ -446,10 +450,11 @@ void xxfree(void *ptr) {
 }
 
 void* xxrealloc(void *ptr, size_t size) {
+
 #ifdef USE_CANARY
     size++;
 #endif
-    uint8_t index, index2;
+    uint8_t index1, index2;
     void* ret = ptr;
 
     if(ptr == NULL)
@@ -460,12 +465,15 @@ void* xxrealloc(void *ptr, size_t size) {
         return NULL;
     }
 
-    index = find_sz_cls(ptr); // old size
+    index1 = find_sz_cls(ptr); // old size
     index2 = sz2cls(size); // new size
 
-    if( index2 >= index  ) {
+    size_t size1 = (index1 == 255) ?
+                   get_large_object_size(ptr) : Class[index1].size;
+
+    if( index2 >= index1) {
         ret = xxmalloc(size);
-        memcpy(ret, ptr, Class[index].size-1);
+        memcpy(ret, ptr, (size1 < size) ? size1 : size);
         xxfree(ptr);
     }
 

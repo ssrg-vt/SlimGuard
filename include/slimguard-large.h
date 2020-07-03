@@ -26,6 +26,7 @@ large_obj_t *next_obj(large_obj_t *node);
 void add_large(void *addr, uint32_t align_sz);
 void remove_large( void *target);
 large_obj_t *in_list(void *target);
+size_t get_large_object_size(void *target);
 
 void print_large();
 
