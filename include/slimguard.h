@@ -58,6 +58,7 @@ void * xxmalloc(size_t sz);
 void   xxfree(void *ptr);
 void * xxrealloc(void *ptr, size_t size);
 void * xxmemalign(size_t alignment, size_t size);
+void * xxcalloc(size_t nmemb, size_t size);
 
 void* slimguard_malloc(size_t sz);
 void  slimguard_free(void *ptr);

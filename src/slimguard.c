@@ -509,6 +509,19 @@ void* xxmemalign(size_t alignment, size_t size) {
     }
 }
 
+/* Only used for tests, with LD_PRELOAD and malloc_hooks calloc calls are
+ * automatically translated to malloc calls */
+void * xxcalloc(size_t nmemb, size_t size) {
+    void *ret;
+
+    ret = xxmalloc (nmemb * size);
+    if (!ret)
+        return ret;
+
+    bzero (ret, nmemb * size);
+    return ret;
+}
+
 /* high level SlimGuard API that is called by gnuwrapper */
 void* slimguard_malloc(size_t size) {
   return xxmalloc(size);
