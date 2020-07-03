@@ -228,7 +228,7 @@ static void test_leak(void) {
 }
 #endif
 
-TEST_CASE("memalign", "[slimguard]")
+TEST_CASE("mimalloc-test", "[slimguard]")
 {
   // > mimalloc-test-stress [THREADS] [SCALE] [ITER]
   int argc = 1;

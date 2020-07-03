@@ -350,7 +350,7 @@ print_times()
 }
 
 #if __STDC__
-TEST_CASE("memalign", "[slimguard]")
+TEST_CASE("malloc-test", "[slimguard]")
 #else
 main(argc, argv) int argc; char *argv[];
 #endif
