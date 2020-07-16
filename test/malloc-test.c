@@ -153,7 +153,7 @@ mem_check(ptr, size) unsigned char *ptr; unsigned long size;
         if(size == 0) return 0;
         if(size > sizeof(unsigned long)) {
                 if(*(unsigned long *)ptr != ((unsigned long)ptr ^ size)) {
-				  printf ("failed size check: expected %x, found %x!\n",
+				  printf ("failed size check: expected %lx, found %lx!\n",
 						  ((unsigned long) ptr ^ size), *(unsigned long *) ptr);
 				  return 1;
 				}
@@ -166,7 +166,7 @@ mem_check(ptr, size) unsigned char *ptr; unsigned long size;
         }
         j = (unsigned long)ptr ^ (size-1);
         if(ptr[size-1] != ((j ^ (j>>8)) & 0xFF)) {
-		  printf ("failed last byte check: expected %x, found %x!\n",
+		  printf ("failed last byte check: expected %lx, found %d!\n",
 				  ((unsigned long) ((j ^ (j>>8)) & 0xFF)), ptr[size-1]);
 		  return 3;
 		}
@@ -238,14 +238,14 @@ bin_alloc(m) struct bin *m;
 #if TEST > 2
                 key = RANDOM(256);
                 sz = m->size;
-                for(r=0; r<sz; r++) m->ptr[r] = (r ^ key) & 0xFF;
+                for(r=0; (long unsigned)r<sz; r++) m->ptr[r] = (r ^ key) & 0xFF;
 #endif
                 m->size = random_size(size);
                 /*printf("realloc %d\n", (int)m->size);*/
                 m->ptr = (unsigned char *)xxrealloc(m->ptr, m->size);
 #if TEST > 2
                 if(m->size < sz) sz = m->size;
-                for(r=0; r<sz; r++)
+                for(r=0; (long unsigned)r<sz; r++)
                         if(m->ptr[r] != ((r ^ key) & 0xFF)) {
                                 printf("realloc bug !\n");
                                 exit(1);
@@ -256,7 +256,7 @@ bin_alloc(m) struct bin *m;
                 m->size = random_size(size);
                 m->ptr = (unsigned char *)calloc(m->size, 1);
 #if TEST > 2
-                for(r=0; r<m->size; r++)
+                for(r=0; (long unsigned)r<m->size; r++)
                         if(m->ptr[r] != '\0') {
                                 printf("calloc bug !\n");
                                 exit(1);
@@ -312,7 +312,7 @@ bin_test()
 
         for(b=0; b<bins; b++) {
                 if(v = mem_check(m[b].ptr, m[b].size)) {
-                        printf("bin_test: memory corrupt! m[%d].ptr = %x, m[%d].size = %d\n",
+                        printf("bin_test: memory corrupt! m[%d].ptr = %p, m[%d].size = %lu\n",
 							   b, m[b].ptr, b, m[b].size);
 						printf ("error = %d\n", v);
                         exit(1);
@@ -320,7 +320,7 @@ bin_test()
         }
         for(b=0; b<sbins; b++) {
                 if(mem_check(sm[b].ptr, sm[b].size)) {
-                        printf("bin_test: memory corrupt! sm[%d].ptr = %x, sm[%d].size = %d\n",
+                        printf("bin_test: memory corrupt! sm[%d].ptr = %p, sm[%d].size = %lu\n",
 							   b, sm[b].ptr, b, sm[b].size);
                         exit(1);
                 }
@@ -359,7 +359,7 @@ main(argc, argv) int argc; char *argv[];
         unsigned int b;
         long sbrk_max, sum;
         double sbrk_used_sum, total_size_sum;
-        void* dummy = 0;
+        // void* dummy = 0;
 
         int argc = 3;
         const char * const argv[] = {"hello", "100000", "1048576" };
