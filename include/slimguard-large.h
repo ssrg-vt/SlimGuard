@@ -30,7 +30,7 @@ size_t get_large_object_size(void *target);
 
 void print_large();
 
-void *xxmalloc_large(size_t sz, size_t align);
+void *xxmalloc_large(size_t sz, uint32_t align);
 int xxfree_large(void *ptr);
 
 #endif /* SG_LARGE_H */

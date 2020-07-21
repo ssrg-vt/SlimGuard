@@ -11,6 +11,7 @@
 #include "slimguard-mmap.h"
 
 #include <assert.h>
+#include <err.h>
 #include <pthread.h>
 
 const int tab64[64] = {
@@ -76,25 +77,6 @@ uint32_t round_sz(uint32_t sz) {
     return ((sz + ALIGN) &(~ALIGN));
 }
 
-/* get size byte of virtual memory */
-void* get_mem(uint64_t size, uint32_t align) {
-    void* ret = NULL;
-
-    if(align)
-        ret = slimguard_aligned_mmap(align, size);
-    else
-        ret = slimguard_mmap(size);
-
-    Debug("ret %p %lu\n", ret, size);
-
-    if (ret == NULL) {
-        Error("cannot mmap for size %lu\n", size);
-        exit(-1);
-    }
-
-    return ret;
-}
-
 /* SlimGuard initialization */
 void init_bibop() {
     srand(time(NULL));
@@ -121,10 +103,12 @@ void init_bucket(uint8_t index) {
          * alignment requirements, see comments in xxmemalign */
         uint32_t align = 0;
         uint32_t sz = cls2sz(index);
-        if(sz >= 0x1000 && (sz & (sz - 1)) == 0)
+        if(sz > PAGE_SIZE && (sz & (sz - 1)) == 0)
             align = sz;
 
-        void* addr = get_mem(BUCKET_SIZE, align); // start address of a bucket
+        void* addr = slimguard_mmap(BUCKET_SIZE, align); // bucket start addr
+        if(!addr)
+            errx(-1, "Cannot allocate class %d data area\n", index);
 
         Class[index].head = NULL; // head of the sll contains free pointers
         Class[index].start = addr; // start address of the current bucket
@@ -143,7 +127,9 @@ void init_bucket(uint8_t index) {
                 Class[index].start);
 
 #ifdef RELEASE_MEM
-        page_counter[index] = get_mem(4<<20, 0);
+        page_counter[index] = slimguard_mmap(4<<20, 0);
+        if(!page_counter[index])
+            errx(-1, "Cannot allocate mem. for class %d page counter\n", index);
 #endif
 
         Debug("index: %u size: %u %p %p %p\n", index, Class[index].size,
@@ -536,7 +522,7 @@ void* xxmemalign(size_t alignment, size_t size) {
         int need_large = (need) >= (1 << 17);
 #endif
         if(need_large)
-            return xxmalloc_large(alignment, need);
+            return xxmalloc_large(need, alignment);
 
         return xxmalloc(need);
     }

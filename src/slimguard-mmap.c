@@ -1,31 +1,30 @@
 #include "slimguard-mmap.h"
+#include "slimguard.h"
+
 #include <err.h>
 #include <sys/mman.h>
 #include <stdlib.h>
 
-void * slimguard_mmap(uint64_t size) {
-   void *r = mmap(0, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON,
-           -1, 0);
+void * slimguard_mmap(uint64_t size, uint64_t align) {
 
-   if(r == MAP_FAILED)
-       err(-1, "!mmap(%lu)", size);
+    if(align % PAGE_SIZE) {
+        warnx("slimguard_mmap: bad alignment\n");
+        return NULL;
+    }
 
-   return r;
-}
+    void *r = mmap(0, size + align, PROT_READ | PROT_WRITE,
+            MAP_PRIVATE | MAP_ANON, -1, 0);
 
-void *slimguard_aligned_mmap(uint64_t align, uint64_t size) {
+    if(r == MAP_FAILED) {
+        warn("mmap(%lu)", size);
+        return NULL;
+    }
 
-    if(align % 0x1000)
-        errx(-1, "Bad alignment 0x%lx for slimguard_aligned_mmap\n", align);
+    if(align) {
+        void *old_addr = r;
+        r = (void *)(((uint64_t)r + align - 1) & ~(align - 1));
+        munmap(old_addr, (uint64_t)r - (uint64_t)old_addr);
+    }
 
-    void *r = mmap(0, size + align, PROT_READ | PROT_WRITE, MAP_PRIVATE |
-           MAP_ANON, -1, 0);
-
-    if(r == MAP_FAILED)
-        err(-1, "!mmap(%lu)", size);
-
-    void *addr = (void *)(((uint64_t)r + align - 1) & ~(align - 1));
-    munmap(r, (uint64_t)addr - (uint64_t)r);
-
-    return addr;
+    return r;
 }
