@@ -188,14 +188,16 @@ void *get_next(uint8_t index){
 
     /* We require slots managing power of two allocations to be aligned on
      * their sizes to properly serve memalign requests */
-    if(!(Class[index].size % 0x1000))
-        while(((uint64_t)ret % Class[index].size)) {
-            ret = (void*)((uint64_t)ret + 0x1000);
-            Class[index].guardpage =(void *)((uint64_t)(Class[index].guardpage)
-                    + 0x1000);
-            Class[index].current =(void *)((uint64_t)(Class[index].current)
-                    + 0x1000);
-        }
+    if(!(Class[index].size % PAGE_SIZE)) {
+        uint64_t old_ret = (uint64_t)ret;
+
+        ret = (void *)(((uint64_t)ret + (uint64_t)(Class[index].size) - 1) &
+                ~((uint64_t)(Class[index].size) - 1));
+        Class[index].guardpage =(void *)((uint64_t)(Class[index].guardpage)
+                + ((uint64_t)ret - old_ret));
+        Class[index].current =(void *)((uint64_t)(Class[index].current)
+                + ((uint64_t)ret - old_ret));
+    }
 
     return ret;
 }
