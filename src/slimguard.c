@@ -47,6 +47,21 @@ pthread_mutex_t global_lock;
 
 enum pool_state{null, init} STATE;
 
+/* *Really* minimal PCG32 code / (c) 2014 M.E. O'Neill / pcg-random.org
+ * See license for pcg32 in docs/pcg32-license.txt */
+typedef struct { uint64_t state;  uint64_t inc; } pcg32_random_t;
+__thread pcg32_random_t rng = {0x0, 0x0};
+
+uint32_t pcg32_random_r(void) {
+    uint64_t oldstate = rng.state;
+    // Advance internal state
+    rng.state = oldstate * 6364136223846793005ULL + (rng.inc|1);
+    // Calculate output function (XSH RR), uses old state for max ILP
+    uint32_t xorshifted = ((oldstate >> 18u) ^ oldstate) >> 27u;
+    uint32_t rot = oldstate >> 59u;
+    return (xorshifted >> rot) | (xorshifted << ((-rot) & 31));
+}
+
 /* convert a size to its corresponding size Class */
 uint8_t sz2cls(uint32_t sz) {
 
@@ -79,12 +94,13 @@ uint32_t round_sz(uint32_t sz) {
 
 /* SlimGuard initialization */
 void init_bibop() {
-    srand(time(NULL));
+    rng.state = time(NULL);
+    rng.inc = time(NULL);
 
     Debug("Entropy %d\n", ETP);
 
 #ifdef USE_CANARY
-    seed = time(NULL) % SEED_MAX;
+    seed = pcg32_random_r();
 #endif
 
     for (int i = 0; i < INDEX; i++) {
@@ -204,7 +220,7 @@ void *get_next(uint8_t index){
 
 /* select a random object in a bucket */
 void* get_random_obj(uint8_t index) {
-    uint16_t i = rand() % BKT;
+    uint16_t i = pcg32_random_r() % BKT;
     void *ret = Class[index].bucket[i];
 
     if (!ret) {
