@@ -143,7 +143,7 @@ void init_bucket(uint8_t index) {
                 Class[index].start);
 
 #ifdef RELEASE_MEM
-        page_counter[index] = slimguard_mmap(4<<20, 0);
+        page_counter[index] = (uint16_t *)slimguard_mmap(4<<20, 0);
         if(!page_counter[index])
             errx(-1, "Cannot allocate mem. for class %d page counter\n", index);
 #endif
