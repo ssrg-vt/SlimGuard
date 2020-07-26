@@ -186,6 +186,19 @@ void *get_next(uint8_t index){
         exit(-1);
     }
 
+    /* We require slots managing power of two allocations to be aligned on
+     * their sizes to properly serve memalign requests */
+    if(!(Class[index].size % PAGE_SIZE)) {
+        uint64_t old_ret = (uint64_t)ret;
+
+        ret = (void *)(((uint64_t)ret + (uint64_t)(Class[index].size) - 1) &
+                ~((uint64_t)(Class[index].size) - 1));
+        Class[index].guardpage =(void *)((uint64_t)(Class[index].guardpage)
+                + ((uint64_t)ret - old_ret));
+        Class[index].current =(void *)((uint64_t)(Class[index].current)
+                + ((uint64_t)ret - old_ret));
+    }
+
 #ifdef GUARDPAGE
     if( (ret > Class[index].guardpage) ||
         ((uint64_t)ret + Class[index].size >=
@@ -201,19 +214,6 @@ void *get_next(uint8_t index){
         }
     }
 #endif
-
-    /* We require slots managing power of two allocations to be aligned on
-     * their sizes to properly serve memalign requests */
-    if(!(Class[index].size % PAGE_SIZE)) {
-        uint64_t old_ret = (uint64_t)ret;
-
-        ret = (void *)(((uint64_t)ret + (uint64_t)(Class[index].size) - 1) &
-                ~((uint64_t)(Class[index].size) - 1));
-        Class[index].guardpage =(void *)((uint64_t)(Class[index].guardpage)
-                + ((uint64_t)ret - old_ret));
-        Class[index].current =(void *)((uint64_t)(Class[index].current)
-                + ((uint64_t)ret - old_ret));
-    }
 
     return ret;
 }
