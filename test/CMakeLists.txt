@@ -7,9 +7,9 @@ set(CMAKE_C_COMPILER g++)
 
 set(debug off)
 set(canary on)
-set(release-memory off)
-set(guardpage off)
-set(destroy-on-free off)
+set(release-memory on)
+set(guardpage on)
+set(destroy-on-free on)
 
 include_directories(../include/)
 
