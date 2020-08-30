@@ -346,8 +346,8 @@ uint16_t find_sz_cls(void *ptr) {
     static __thread int last_index = 0;
 
     for(int i=last_index; i<INDEX; ++i) {
-        if(((uint64_t)Class[i].start <= (uint64_t)ptr) &
-           ((uint64_t)Class[i].stop > (uint64_t)ptr)){
+        if(((uint64_t)Class[i].start <= (uint64_t)ptr) &&
+           ((uint64_t)Class[i].start+BUCKET_SIZE > (uint64_t)ptr)){
             last_index = i;
 
             return i;
@@ -355,8 +355,8 @@ uint16_t find_sz_cls(void *ptr) {
     }
 
     for(int i=0; i<last_index; ++i) {
-        if(((uint64_t)Class[i].start <= (uint64_t)ptr) &
-           ((uint64_t)Class[i].stop > (uint64_t)ptr)){
+        if(((uint64_t)Class[i].start <= (uint64_t)ptr) &&
+           ((uint64_t)Class[i].start+BUCKET_SIZE > (uint64_t)ptr)){
             last_index = i;
 
             return i;

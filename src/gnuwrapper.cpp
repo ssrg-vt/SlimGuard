@@ -4,7 +4,7 @@
  *  All rights reserved
  */
 
-#ifdef __LINUX__
+#ifdef __linux__
 
 #ifndef __GNUC__
 #error "This file requires the GNU compiler."
@@ -92,4 +92,4 @@ extern "C" {
 
 }
 
-#endif /* __LINUX */
+#endif /* __linux__ */
