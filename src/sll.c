@@ -7,10 +7,6 @@
 #include "debug.h"
 #include "sll.h"
 
-sll_t* next_entry(sll_t* cur) {
-    return cur->next;
-}
-
 sll_t* add_head(sll_t* node, sll_t* slist) {
 
   if (slist == NULL) {
@@ -31,17 +27,4 @@ sll_t* remove_head(sll_t* slist) {
 
   slist = slist->next;
   return slist;
-}
-
-void print_list(sll_t *slist) {
-
-  if (slist == NULL)
-    return;
-
-  sll_t * current = slist;
-
-  while (current != NULL) {
-    Debug("curr %p\n", (void *)current);
-    current = current->next;
-  }
 }

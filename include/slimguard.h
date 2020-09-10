@@ -31,6 +31,10 @@
 #define INDEX (FLI*SLI)
 #define BUCKET_SIZE (8UL << 30) // 4GB
 
+#if INDEX >= 255
+#error "INDEX should be < 255 as it is stored on 1 unsigned byte"
+#endif
+
 int      log2_64(uint64_t value);
 uint8_t  sz2cls(uint32_t sz);
 uint32_t cls2sz(uint16_t cls);
@@ -42,9 +46,9 @@ void  init_bucket(uint8_t index);
 void* get_next(uint8_t index);
 void* get_random_obj(uint8_t index);
 
-char HashPointer(void *ptr);
+char HashPointer(const void *ptr);
 void set_canary(void *ptr, uint8_t index);
-void get_canary(void *ptr, uint8_t index);
+void get_canary(const void *ptr, const uint8_t index);
 
 void mark_used(void *ptr, uint8_t index);
 void mark_free(void *ptr, uint8_t index);

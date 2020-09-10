@@ -224,7 +224,7 @@ void* get_random_obj(uint8_t index) {
 }
 
 /* Hash a pointer to get canary value */
-char HashPointer(void* ptr) {
+char HashPointer(const void* ptr) {
     long long Value = (long long)ptr;
 
     Value = ~Value + (Value << 15);
@@ -248,7 +248,7 @@ void set_canary(void * ptr, uint8_t index) {
 }
 
 /* check the canary value */
-void get_canary(void *ptr, uint8_t index) {
+void get_canary(const void *ptr, const uint8_t index) {
     char *end = (char *)((unsigned char *) ptr + Class[index].size - 1);
 
 #ifdef DEBUG
@@ -331,7 +331,7 @@ void decrement_pc(void *ptr, uint8_t index) {
 #endif
 
 /* given a pointer find the corresponding size class */
-uint16_t find_sz_cls(void *ptr) {
+uint16_t find_sz_cls(const void *ptr) {
     static __thread int last_index = 0;
 
     for(int i=last_index; i<INDEX; ++i) {

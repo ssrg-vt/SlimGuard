@@ -48,7 +48,7 @@ void add_large(void *addr, uint32_t align_sz) {
     large_list = node;
 }
 
-void remove_large(void *target) {
+void remove_large(const void *target) {
     large_obj_t *tmp = large_list, *pre;
 
     if ((tmp->next == NULL) | (tmp == NULL))
@@ -80,7 +80,7 @@ size_t get_large_object_size(void *target) {
     return ret;
 }
 
-large_obj_t* in_list(void *target) {
+large_obj_t* in_list(const void *target) {
     if (large_list == NULL)
         return NULL;
 
