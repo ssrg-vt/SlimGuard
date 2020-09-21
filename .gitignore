@@ -2,3 +2,4 @@ libSlimGuard.so
 build
 test/mimalloc/test-stress
 test/malloc-test/malloc-test
+slimguard-standalone.c
