@@ -40,7 +40,6 @@ endif(destroy-on-free)
 set(debug ../include/debug.h)
 set(catch catch.hpp)
 
-set(sll ${debug} ../include/sll.h ../src/sll.c ../test/sll-test.c)
 set(slimguard-large ${debug} ../test/slimguard-large-test.c)
 set(memalign ${debug} ../test/memalign.c)
 set(memalign-free ${debug} ../test/memalign-free.c)
@@ -63,7 +62,6 @@ set(slimguard-base ${debug} ../include/slimguard.h
 
 enable_testing()
 
-add_executable(sll-test ${sll} ${catch})
 add_executable(slimguard-large-test ${slimguard-large} ${slimguard-base} ${catch})
 add_executable(slimguard-test ${slimguard-test} ${slimguard-base} ${catch})
 add_executable(memalign ${memalign} ${slimguard-base} ${catch})
@@ -75,7 +73,6 @@ add_executable(mimalloc-test ${mimalloc-test} ${slimguard-base} ${catch})
 add_executable(calloc ${calloc} ${slimguard-base} ${catch})
 add_executable(realloc ${realloc} ${slimguard-base} ${catch})
 
-add_test(sll-test sll-test)
 add_test(slimguard-large-test slimguard-large-test)
 add_test(slimguard-test slimguard-test)
 add_test(memalign memalign)
