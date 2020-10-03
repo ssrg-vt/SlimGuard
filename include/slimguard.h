@@ -29,7 +29,7 @@
 #define SEED_MAX (1 << 10)
 #define PAGE_SIZE (1 << 12)
 #define INDEX (FLI*SLI)
-#define BUCKET_SIZE (8UL << 30) // 4GB
+#define BUCKET_SIZE (8UL << 30) // 8GB
 
 #if INDEX >= 255
 #error "INDEX should be < 255 as it is stored on 1 unsigned byte"
