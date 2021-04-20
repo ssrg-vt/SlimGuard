@@ -51,6 +51,7 @@ set(mimalloc-test ${debug} ../test/mimalloc-test.c)
 set(memory-content ${debug} ../test/memory-content.c)
 set(calloc ${debug} ../test/calloc.c)
 set(realloc ${debug} ../test/realloc.c)
+set(very-large ${debug} ../test/very-large.c)
 set(slimguard-base ${debug} ../include/slimguard.h
                             ../src/slimguard.c
                             ../src/slimguard-large.c
@@ -72,6 +73,7 @@ add_executable(malloc-test ${malloc-test} ${slimguard-base} ${catch})
 add_executable(mimalloc-test ${mimalloc-test} ${slimguard-base} ${catch})
 add_executable(calloc ${calloc} ${slimguard-base} ${catch})
 add_executable(realloc ${realloc} ${slimguard-base} ${catch})
+add_executable(very-large ${very-large} ${slimguard-base} ${catch})
 
 add_test(slimguard-large-test slimguard-large-test)
 add_test(slimguard-test slimguard-test)
@@ -83,3 +85,4 @@ add_test(malloc-test malloc-test)
 add_test(mimalloc-test mimalloc-test)
 add_test(calloc calloc)
 add_test(realloc realloc)
+add_test(very-large very-large)
