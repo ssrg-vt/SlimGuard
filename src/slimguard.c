@@ -371,6 +371,10 @@ void* xxmalloc(size_t sz) {
     uint8_t index = 255;
     need = round_sz(sz);
 
+    /* Can happen if sz is large enough */
+    if(!need)
+        return NULL;
+
     if (need >= (1 << 17)) {
         Debug("sz %lu\n", need);
         ret = xxmalloc_large(need, 0);
