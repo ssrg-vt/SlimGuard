@@ -6,6 +6,8 @@
 
 #ifdef __linux__
 
+#if __GLIBC__ == 2 && __GLIBC_MINOR__ < 34
+
 #ifndef __GNUC__
 #error "This file requires the GNU compiler."
 #endif
@@ -91,5 +93,7 @@ extern "C" {
 #endif
 
 }
+
+#endif /* __GLIBC__ == 2 && __GLIBC_MINOR__ < 34 */
 
 #endif /* __linux__ */
