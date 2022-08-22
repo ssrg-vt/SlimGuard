@@ -14,7 +14,6 @@ set(destroy-on-free on)
 include_directories(../include/)
 
 set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wno-deprecated-declarations -O0 -g")
-set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lpthread")
 
 if(debug)
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -DDEBUG")
@@ -35,7 +34,6 @@ endif(guardpage)
 if(destroy-on-free)
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDESTROY_ON_FREE")
 endif(destroy-on-free)
-
 
 set(debug ../include/debug.h)
 set(catch catch.hpp)
@@ -74,6 +72,8 @@ add_executable(mimalloc-test ${mimalloc-test} ${slimguard-base} ${catch})
 add_executable(calloc ${calloc} ${slimguard-base} ${catch})
 add_executable(realloc ${realloc} ${slimguard-base} ${catch})
 add_executable(very-large ${very-large} ${slimguard-base} ${catch})
+
+target_link_libraries(mimalloc-test pthread)
 
 add_test(slimguard-large-test slimguard-large-test)
 add_test(slimguard-test slimguard-test)
