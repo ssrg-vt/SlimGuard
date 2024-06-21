@@ -6,7 +6,9 @@
 
 **News**
 
-- Our SlimGuard [paper](https://dl.acm.org/citation.cfm?id=3361532) has been accepted
+- Check out this [paper](https://drive.google.com/file/d/1_kY88JfdVB7B-9Uh8kR37_pPgm0nXu8D/view?usp=drive_link)
+  building on top of SlimGuard and enhancing it with fine grained hardware write-protection features (Intel SPP)
+- Our SlimGuard [paper](https://www.ssrg.ece.vt.edu/papers/middleware19-slimguard.pdf) has been accepted
 at [Middleware 2019](http://2019.middleware-conference.org/).
 
 * * *
